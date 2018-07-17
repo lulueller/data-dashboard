@@ -1,76 +1,3 @@
-window.onload = main();
-
-function main() {
-  loadCityList();
-  var cityList = document.getElementById('city-list');
-  var generationList = document.getElementById('generation-list');
-  cityList.addEventListener('change', loadGeneneration);
-  generationList.addEventListener('change', loadStudentList);
-}
-
-function loadCityList() {
-  var cityList = document.getElementById('city-list');
-  for (city in data) {
-    var name = getCityName(city);
-    var value = city;
-    var cityItem = document.createElement('option');
-    cityItem.value = value;
-    cityItem.innerText = name;
-    cityList.appendChild(cityItem);
-  }
-}
-
-function getCityName(code) {
-  var cities = {
-      'AQP': 'Arequipa',
-      'CDMX': 'Cidade do México',
-      'LIM': 'Lima',
-      'SCL': 'Santiago do Chile'
-  };
-  return cities[code];
-}
-
-function loadGeneneration() {
-  var cityList = document.getElementById('city-list');
-  var generationList = document.getElementById('generation-list');
-  generationList.innerHTML = '';
-  var generationItem = document.createElement('option');
-  generationItem.innerText = 'Selecione a turma';
-  generationList.appendChild(generationItem);
-  //popula o select
-  for (generation in data[cityList.value]) {
-    generationItem = document.createElement('option');
-    generationItem.value = generation;
-    generationItem.innerText = generation;
-    generationList.appendChild(generationItem);
-  }
-}
-
-function loadStudentList() {
-  var city = document.getElementById('city-list').value;
-  var generation = document.getElementById('generation-list').value;
-  var studentsList = document.getElementById('students-list');
-  studentsList.innerHTML = '';
-  var students = data[city][generation]['students'];
-  for (i = 0; i < students.length; i++) {
-    var student = students[i];
-    addStudentInfo(studentsList, students[i]);
-  }
-}
-
-function addStudentInfo(list, student) {
-  var studentItem = document.createElement('li');
-  var studentPhoto = document.createElement('img');
-  studentItem.innerText = student.name;
-  studentPhoto.src = student.photo;
-  studentPhoto.setAttribute('width', 40);
-  studentPhoto.setAttribute('height', 40);
-  list.appendChild(studentItem);
-  studentItem.appendChild(studentPhoto);
-}
-
-// Funções que obtem os dados e cálculos
-
 // funcao que conta o numero de estudantes por sede
 function countStudents(place, year) {
   var count = 0;
@@ -82,7 +9,7 @@ function countStudents(place, year) {
   return (count);
 }
 
-// funcao que verifica se um objeto é vazio
+// funcao que verifica se um objeto � vazio
 function isEmpty(obj) {
   for (var prop in obj) {
     if (obj.hasOwnProperty(prop))
@@ -91,7 +18,7 @@ function isEmpty(obj) {
   return true;
 }
 
-// funcao que conta o numero de estudanetes ativas ou nao por sede
+// funcao que conta o numero de estudantes ativas ou nao por sede
 function studentsActiveOrNot(place, year) {
   var countActive = 0;
   var countInactive = 0;
@@ -106,9 +33,57 @@ function studentsActiveOrNot(place, year) {
       countInactive -= 1;
     }
   }
+
+  var pieData = [
+    { name: 'Ativas', y: countActive },
+    { name: 'Desistentes', y: countInactive },
+  ]
+
+  Highcharts.setOptions({
+    colors: ['#058DC7', '#ED561B']
+  });
+
+  Highcharts.chart('container-studentsActiveOrNot', {
+    chart: {
+      plotBackgroundColor: null,
+      plotBorderWidth: null,
+      plotShadow: false,
+      type: 'pie'
+    },
+    title: {
+      text: '�ndice de estudantes ativas e desistentes'
+    },
+    tooltip: {
+      pointFormat: '{series.name}: <b>{point.y}</b><br/><b>{point.percentage:.1f}%</b>'
+    },
+    plotOptions: {
+      pie: {
+        allowPointSelect: true,
+        cursor: 'pointer',
+        dataLabels: {
+
+          color: 'black',
+          enabled: true,
+          format: 'Total: <b>{point.y}</b><br/><b>{point.percentage: .1f}%</b>',
+          distance: -60,
+        },
+        showInLegend: true
+      }
+    },
+    series: [{
+      name: 'Total',
+      colorByPoint: true,
+      data: pieData
+    }]
+  });
+
   var countActivePerc = ((countActive / (countStudents(place, year))) * 100).toFixed(2);
-  return [countActive, countActivePerc, countInactive, 100 - countActivePerc];
+
 }
+
+var teste = studentsActiveOrNot('AQP', '2016-2');
+console.log(teste);
+
 
 // funcao que conta o numero de estudantes que alcancaram a meta de 70% em hse e tech por sprint
 // e separadamente por tech e hse
@@ -147,7 +122,7 @@ function targetAll(place, year) {
   var averageHSEPercAll = ((averageHSE * 100) / (countStudents(place, year))).toFixed(2);
 
   //retorna array com numero de estudantes que conseguiram alcancar a meta por sprint (targetSprint)
-  // retorna também a media de alunas que alcancaram a meta por sprint(averageSprint) e a porcentagem em relaco ao total de alunas (averagePercAll)
+  // retorna tamb�m a media de alunas que alcancaram a meta por sprint(averageSprint) e a porcentagem em relaco ao total de alunas (averagePercAll)
   return [targetSprint, averageSprint, averagePercAll, targetTech, averageTech, averageTechPercAll, targetHSE, averageHSE, averageHSEPercAll];
 }
 
@@ -174,7 +149,7 @@ function returnNPS(place,year) {
   return [promoters, passive, detractors, averagePromoters, averagePassive, averageDetractors,nps];
 }
 
-//funcao que retorna a avaliacao das estudantes sobre a laboratória
+//funcao que retorna a avaliacao das estudantes sobre a laborat�ria
 function returnStudentsRating(place,year) {
   var overExpectation = [];
   var onExpectation= [];
@@ -191,7 +166,51 @@ function returnStudentsRating(place,year) {
   var averageOnExpectation = sumOnExpectation / onExpectation.length;
   var averageUnderExpectation = sumUnderExpectation / underExpectation.length;
   return [overExpectation, onExpectation, underExpectation, averageOverExpectation, averageOnExpectation, averageUnderExpectation];
+
+  var myDataOver = transformArray(overEpectation);
+  var myDataOn = transformArray(onExpectation);
+  var myDataUnder = transformArray(underExpectation);
+  Highcharts.chart('container-ratingsStudents', {
+    chart: {
+      type: 'line',
+
+    },
+    title: {
+      text: 'Avalia��o das estudantes sobre a Laborat�ria'
+    },
+
+    xAxis: {
+      categories: myDataOver.map(x => x.name)
+    },
+    yAxis: {
+      title: {
+        text: 'Avalia��o'
+      }
+    },
+    plotOptions: {
+      line: {
+        dataLabels: {
+          enabled: true
+        },
+        enableMouseTracking: false
+      }
+    },
+    series: [{
+      name: 'Supera a expectativa',
+      data: myDataOver.map(x => x.data),
+    }, {
+        name: 'Dentro da expectativa',
+      data: myDataOn.map(x => x.data),
+    }, {
+        name: 'Abaixo da expectativa',
+        data: myDataUnder.map(x => x.data),
+    }],
+
+  });
+
 }
+var teste = returnStudentsRating('AQP', '2016-2');
+console.log(teste);
 
 //funcao que retorna a pontuacao media de mentores e Jedis
 function returnTeachersJedisRating(place, year) {
@@ -206,5 +225,61 @@ function returnTeachersJedisRating(place, year) {
   for (var i = 0, sumTeacher = 0; i < teacher.length; sumTeacher += teacher[i++]) { }
   var averageJedi = (sumJedi / jedi.length).toFixed(2);
   var averageTeacher = (sumTeacher / teacher.length).toFixed(2);
+
+  var myDataJedi = transformArray(jedi);
+  var myDataTeacher = transformArray(teacher);
+
+  Highcharts.chart('container-ratingsJediTeacher', {
+    chart: {
+      type: 'line',
+
+    },
+    title: {
+      text: 'Pontua��o de Mentores e Jedis'
+    },
+
+   xAxis: {
+      categories: myDataJedi.map(x => x.name)
+    },
+    yAxis: {
+      title: {
+        text: 'Pontua��o'
+      }
+    },
+    plotOptions: {
+      line: {
+        dataLabels: {
+          enabled: true
+        },
+        enableMouseTracking: false
+      }
+    },
+    series: [{
+      name: 'Jedis',
+      data: myDataJedi.map( x=> x.data),
+    }, {
+      name: 'Teachers',
+      data: myDataTeacher.map( x => x.data),
+      }],
+
+  });
   return [jedi, teacher, averageJedi, averageTeacher];
+}
+
+var teste = returnTeachersJedisRating('AQP', '2016-2');
+console.log(teste);
+
+//funcao que tranforma o array de dados em um objeto no formato de entrada de dadod dos gr�ficos
+function transformArray(array) {
+  var myData = [];
+  for (var n in array) {
+    myData.push({});
+    var j = 1;
+    for (i in myData) {
+      myData[i]['name'] = 'SP' + j;
+      myData[i]['data'] = array[i];
+      j++;
+    }
+  }
+  return myData;
 }
