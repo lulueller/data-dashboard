@@ -47,6 +47,7 @@ function loadGeneneration() {
 }
 
 function loadStudentList() {
+  callChartByYear();
   var city = document.getElementById('city-list').value;
   var generation = document.getElementById('generation-list').value;
   var studentsList = document.getElementById('students-list');
@@ -443,13 +444,12 @@ function averageData(array) {
   return average;
 }
 
-
-var teste = studentsActiveOrNot('AQP', '2016-2')
-
-var teste = targetAll('AQP', '2016-2')
-
-var teste = returnNPS('AQP', '2016-2')
-
-var teste = returnStudentsRating('AQP', '2016-2')
-
-var teste = returnTeachersJedisRating('AQP', '2016-2')
+function callChartByYear () {
+  var place = document.getElementById('city-list').value;
+  var year = document.getElementById('generation-list').value;
+  studentsActiveOrNot(place, year);
+  targetAll(place, year);
+  returnNPS(place, year);
+  returnStudentsRating(place, year);
+  returnTeachersJedisRating(place, year);
+}
