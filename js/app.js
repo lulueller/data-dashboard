@@ -153,9 +153,6 @@ function studentsActiveOrNot(place, year) {
 
 }
 
-var teste = studentsActiveOrNot('AQP', '2016-2');
-console.log(teste);
-
 
 // funcao que conta o numero de estudantes que alcancaram a meta de 70% em hse e tech por sprint
 // e separadamente por tech e hse
@@ -281,8 +278,6 @@ function returnStudentsRating(place,year) {
   });
 
 }
-var teste = returnStudentsRating('AQP', '2016-2');
-console.log(teste);
 
 //funcao que retorna a pontuacao media de mentores e Jedis
 function returnTeachersJedisRating(place, year) {
@@ -338,8 +333,6 @@ function returnTeachersJedisRating(place, year) {
   return [jedi, teacher, averageJedi, averageTeacher];
 }
 
-var teste = returnTeachersJedisRating('AQP', '2016-2');
-console.log(teste);
 
 //funcao que tranforma o array de dados em um objeto no formato de entrada de dadod dos gr�ficos
 function transformArray(array) {
