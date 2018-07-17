@@ -74,14 +74,14 @@ function addStudentInfo(list, student) {
 function countStudents(place, year) {
   var count = 0;
   for (i in data[place][year]['students']) {
-    if (isEmpty(data[place][year]['students'][i])===false) {
+    if (isEmpty(data[place][year]['students'][i]) === false) {
       count += 1;
     }
   }
   return (count);
 }
 
-// funcao que verifica se um objeto � vazio
+// funcao que verifica se um objeto é vazio
 function isEmpty(obj) {
   for (var prop in obj) {
     if (obj.hasOwnProperty(prop))
@@ -123,7 +123,7 @@ function studentsActiveOrNot(place, year) {
       type: 'pie'
     },
     title: {
-      text: '�ndice de estudantes ativas e desistentes'
+      text: 'Índice de estudantes ativas e desistentes'
     },
     tooltip: {
       pointFormat: '{series.name}: <b>{point.y}</b><br/><b>{point.percentage:.1f}%</b>'
@@ -153,13 +153,7 @@ function studentsActiveOrNot(place, year) {
 
 }
 
-var teste = studentsActiveOrNot('AQP', '2016-2');
-console.log(teste);
-
-
-// funcao que conta o numero de estudantes que alcancaram a meta de 70% em hse e tech por sprint
-// e separadamente por tech e hse
-
+// funcao que conta o numero de estudantes que alcancaram a meta de 70% em hse e tech por sprint  e separadamente por tech e hse
 function targetAll(place, year) {
   var targetSprint = [];
   var targetHSE = [];
@@ -183,86 +177,179 @@ function targetAll(place, year) {
 
     }
   }
-  for (var i = 0, sum = 0; i < targetSprint.length; sum += targetSprint[i++]) { }
-  var averageSprint = sum / targetSprint.length;
-  var averagePercAll = ((averageSprint * 100) / (countStudents(place, year))).toFixed(2);
-  for (var i = 0, sum = 0; i < targetTech.length; sum += targetTech[i++]) { }
-  var averageTech = sum / targetTech.length;
-  var averageTechPercAll = ((averageTech * 100) / (countStudents(place, year))).toFixed(2);
-  for (var i = 0, sum = 0; i < targetHSE.length; sum += targetHSE[i++]) { }
-  var averageHSE = sum / targetHSE.length;
-  var averageHSEPercAll = ((averageHSE * 100) / (countStudents(place, year))).toFixed(2);
 
-  //retorna array com numero de estudantes que conseguiram alcancar a meta por sprint (targetSprint)
-  // retorna tamb�m a media de alunas que alcancaram a meta por sprint(averageSprint) e a porcentagem em relaco ao total de alunas (averagePercAll)
+  var averageSprint = averageData(targetSprint);
+  var averagePercAll = ((averageSprint * 100) / (countStudents(place, year)));
+  var averageTech = averageData(targetTech);
+  var averageTechPercAll = ((averageTech * 100) / (countStudents(place, year)));
+  var averageHSE = averageData(targetHSE);
+  var averageHSEPercAll = ((averageHSE * 100) / (countStudents(place, year)));
+
+  var myDataTechHSE = transformArray(targetSprint);
+  var myDataTech = transformArray(targetTech);
+  var myDataHSE = transformArray(targetHSE);
+
+  Highcharts.setOptions({
+    colors: ['#ED561B', '#058DC7', '#8bbc21']
+  });
+
+
+  Highcharts.chart('container-TargetTechHSE', {
+    chart: {
+      type: 'line',
+
+    },
+    title: {
+      text: 'Número de Estudantes com Pontuação Técnica e de Habilidades Sócio Emocionais <br/> Acima de 70%'
+    },
+
+
+    xAxis: {
+      categories: myDataTechHSE.map(x => x.name)
+    },
+    yAxis: {
+      title: {
+        text: 'Número de Estudantes'
+      }
+    },
+    plotOptions: {
+      line: {
+        dataLabels: {
+          enabled: true,
+
+        },
+        enableMouseTracking: false
+      }
+    },
+    series: [{
+      name: 'Tech e HSE',
+      data: myDataTechHSE.map(x => x.data),
+    }, {
+      name: 'Tech',
+      data: myDataTech.map(x => x.data),
+    }, {
+      name: 'HSE',
+      data: myDataHSE.map(x => x.data),
+    }],
+  });
+
+  //retorna array com numero de estudantes que conseguiram alcancar a meta por sprint (targetSprint) 
+  // retorna também a media de alunas que alcancaram a meta por sprint(averageSprint) e a porcentagem em relaco ao total de alunas (averagePercAll)
   return [targetSprint, averageSprint, averagePercAll, targetTech, averageTech, averageTechPercAll, targetHSE, averageHSE, averageHSEPercAll];
 }
 
 //funcao que retorna NPS pela turma por sprints, media de nps e nps (tudo em percentagem)
-
-function returnNPS(place,year) {
+function returnNPS(place, year) {
   var promoters = [];
   var passive = [];
   var detractors = [];
   for (i in data[place][year]['ratings']) {
-      promoters[i] = (data[place][year]['ratings'][i]['nps']['promoters']);
-      passive[i] = (data[place][year]['ratings'][i]['nps']['passive']);
-      detractors[i] = (data[place][year]['ratings'][i]['nps']['detractors']);
+    promoters[i] = (data[place][year]['ratings'][i]['nps']['promoters']);
+    passive[i] = (data[place][year]['ratings'][i]['nps']['passive']);
+    detractors[i] = (data[place][year]['ratings'][i]['nps']['detractors']);
   }
 
-  for (var i = 0, sumPromoters = 0; i < promoters.length; sumPromoters += promoters[i++]) { }
-  for (var i = 0, sumPassive = 0; i < promoters.length;  sumPassive += passive[i++]) { }
-  for (var i = 0, sumDetractors = 0; i < promoters.length; sumDetractors += detractors[i++]) { }
-
-  var averagePromoters = sumPromoters / promoters.length;
-  var averagePassive = sumPassive / passive.length;
-  var averageDetractors = sumDetractors / detractors.length;
+  var averagePromoters = averageData(promoters);
+  var averagePassive = averageData(passive);
+  var averageDetractors = averageData(detractors);
   var nps = averagePromoters - averageDetractors;
-  return [promoters, passive, detractors, averagePromoters, averagePassive, averageDetractors,nps];
+  var myDataPromoters = transformArray(promoters);
+  var myDataPassive = transformArray(passive);
+  var myDataDetractors = transformArray(detractors);
+
+  Highcharts.setOptions({
+    colors: ['#058DC7', '#8bbc21', '#ED561B']
+  });
+
+
+  Highcharts.chart('container-NPS', {
+    chart: {
+      type: 'line',
+
+    },
+    title: {
+      text: 'Net Promoter Score'
+    },
+
+
+    xAxis: {
+      categories: myDataPromoters.map(x => x.name)
+    },
+    yAxis: {
+      title: {
+        text: 'NPS (%)'
+      }
+    },
+    plotOptions: {
+      line: {
+        dataLabels: {
+          enabled: true,
+
+        },
+        enableMouseTracking: false
+      }
+    },
+    series: [{
+      name: 'Promoters',
+      data: myDataPromoters.map(x => x.data),
+    }, {
+      name: 'Passive',
+      data: myDataPassive.map(x => x.data),
+    }, {
+      name: 'Detractors',
+      data: myDataDetractors.map(x => x.data),
+    }],
+  });
+
+  return [promoters, passive, detractors, averagePromoters, averagePassive, averageDetractors, nps];
 }
 
-//funcao que retorna a avaliacao das estudantes sobre a laborat�ria
-function returnStudentsRating(place,year) {
+//funcao que retorna a avaliacao das estudantes sobre a laboratória
+function returnStudentsRating(place, year) {
   var overExpectation = [];
-  var onExpectation= [];
-  var underExpectation= [];
+  var onExpectation = [];
+  var underExpectation = [];
   for (i in data[place][year]['ratings']) {
     overExpectation[i] = (data[place][year]['ratings'][i]['student']['supera']);
     onExpectation[i] = (data[place][year]['ratings'][i]['student']['cumple']);
     underExpectation[i] = (data[place][year]['ratings'][i]['student']['no-cumple']);
   }
-  for (var i = 0, sumOverExpectation = 0; i < overExpectation.length; sumOverExpectation += overExpectation[i++]) { }
-  for (var i = 0, sumOnExpectation = 0; i < onExpectation.length; sumOnExpectation += onExpectation[i++]) { }
-  for (var i = 0, sumUnderExpectation = 0; i < underExpectation.length; sumUnderExpectation += underExpectation[i++]) { }
-  var averageOverExpectation = sumOverExpectation / overExpectation.length;
-  var averageOnExpectation = sumOnExpectation / onExpectation.length;
-  var averageUnderExpectation = sumUnderExpectation / underExpectation.length;
-  return [overExpectation, onExpectation, underExpectation, averageOverExpectation, averageOnExpectation, averageUnderExpectation];
 
-  var myDataOver = transformArray(overEpectation);
+  var averageOverExpectation = averageData(overExpectation);
+  var averageOnExpectation = averageData(onExpectation);
+  var averageUnderExpectation = averageData(underExpectation);
+  var myDataOver = transformArray(overExpectation);
   var myDataOn = transformArray(onExpectation);
   var myDataUnder = transformArray(underExpectation);
+
+  Highcharts.setOptions({
+    colors: ['#058DC7', '#8bbc21', '#ED561B']
+  });
+
+
   Highcharts.chart('container-ratingsStudents', {
     chart: {
       type: 'line',
 
     },
     title: {
-      text: 'Avalia��o das estudantes sobre a Laborat�ria'
+      text: 'Avaliação das estudantes sobre a Laboratória'
     },
+
 
     xAxis: {
       categories: myDataOver.map(x => x.name)
     },
     yAxis: {
       title: {
-        text: 'Avalia��o'
+        text: 'Avaliação (%)'
       }
     },
     plotOptions: {
       line: {
         dataLabels: {
-          enabled: true
+          enabled: true,
+
         },
         enableMouseTracking: false
       }
@@ -271,18 +358,15 @@ function returnStudentsRating(place,year) {
       name: 'Supera a expectativa',
       data: myDataOver.map(x => x.data),
     }, {
-        name: 'Dentro da expectativa',
+      name: 'Dentro da expectativa',
       data: myDataOn.map(x => x.data),
     }, {
-        name: 'Abaixo da expectativa',
-        data: myDataUnder.map(x => x.data),
+      name: 'Abaixo da expectativa',
+      data: myDataUnder.map(x => x.data),
     }],
-
   });
-
+  return [myDataOver, myDataOn, myDataUnder, averageOverExpectation, averageOnExpectation, averageUnderExpectation];
 }
-var teste = returnStudentsRating('AQP', '2016-2');
-console.log(teste);
 
 //funcao que retorna a pontuacao media de mentores e Jedis
 function returnTeachersJedisRating(place, year) {
@@ -293,10 +377,9 @@ function returnTeachersJedisRating(place, year) {
     jedi[i] = (data[place][year]['ratings'][i]['jedi']);
     teacher[i] = (data[place][year]['ratings'][i]['teacher']);
   }
-  for (var i = 0, sumJedi = 0; i < jedi.length; sumJedi += jedi[i++]) { }
-  for (var i = 0, sumTeacher = 0; i < teacher.length; sumTeacher += teacher[i++]) { }
-  var averageJedi = (sumJedi / jedi.length).toFixed(2);
-  var averageTeacher = (sumTeacher / teacher.length).toFixed(2);
+
+  var averageJedi = averageData(jedi);
+  var averageTeacher = averageData(teacher);
 
   var myDataJedi = transformArray(jedi);
   var myDataTeacher = transformArray(teacher);
@@ -307,15 +390,15 @@ function returnTeachersJedisRating(place, year) {
 
     },
     title: {
-      text: 'Pontua��o de Mentores e Jedis'
+      text: 'Pontuação de Mentores e Jedis'
     },
 
-   xAxis: {
+    xAxis: {
       categories: myDataJedi.map(x => x.name)
     },
     yAxis: {
       title: {
-        text: 'Pontua��o'
+        text: 'Pontuação'
       }
     },
     plotOptions: {
@@ -328,20 +411,17 @@ function returnTeachersJedisRating(place, year) {
     },
     series: [{
       name: 'Jedis',
-      data: myDataJedi.map( x=> x.data),
+      data: myDataJedi.map(x => x.data),
     }, {
       name: 'Teachers',
-      data: myDataTeacher.map( x => x.data),
-      }],
+      data: myDataTeacher.map(x => x.data),
+    }],
 
   });
-  return [jedi, teacher, averageJedi, averageTeacher];
+  return [myDataJedi, myDataTeacher, averageJedi, averageTeacher];
 }
 
-var teste = returnTeachersJedisRating('AQP', '2016-2');
-console.log(teste);
-
-//funcao que tranforma o array de dados em um objeto no formato de entrada de dadod dos gr�ficos
+//funcao que tranforma o array de dados em um objeto no formato de entrada de dadod dos gráficos
 function transformArray(array) {
   var myData = [];
   for (var n in array) {
@@ -355,3 +435,21 @@ function transformArray(array) {
   }
   return myData;
 }
+
+//funcao que calcula a media dos dados
+function averageData(array) {
+  for (var i = 0, sum = 0; i < array.length; sum += array[i++]) { }
+  var average = (sum / array.length).toFixed(2);
+  return average;
+}
+
+
+var teste = studentsActiveOrNot('AQP', '2016-2')
+
+var teste = targetAll('AQP', '2016-2')
+
+var teste = returnNPS('AQP', '2016-2')
+
+var teste = returnStudentsRating('AQP', '2016-2')
+
+var teste = returnTeachersJedisRating('AQP', '2016-2')
