@@ -165,11 +165,14 @@ function returnStudentsRating(place,year) {
   var averageOverExpectation = sumOverExpectation / overExpectation.length;
   var averageOnExpectation = sumOnExpectation / onExpectation.length;
   var averageUnderExpectation = sumUnderExpectation / underExpectation.length;
-  return [overExpectation, onExpectation, underExpectation, averageOverExpectation, averageOnExpectation, averageUnderExpectation];
+ 
 
-  var myDataOver = transformArray(overEpectation);
+  var myDataOver = transformArray(overExpectation);
   var myDataOn = transformArray(onExpectation);
   var myDataUnder = transformArray(underExpectation);
+
+  return [myDataOver, myDataOn, myDataUnder, averageOverExpectation, averageOnExpectation, averageUnderExpectation];
+
   Highcharts.chart('container-ratingsStudents', {
     chart: {
       type: 'line',
@@ -199,11 +202,11 @@ function returnStudentsRating(place,year) {
       name: 'Supera a expectativa',
       data: myDataOver.map(x => x.data),
     }, {
-        name: 'Dentro da expectativa',
+      name: 'Dentro da expectativa',
       data: myDataOn.map(x => x.data),
     }, {
-        name: 'Abaixo da expectativa',
-        data: myDataUnder.map(x => x.data),
+      name: 'Abaixo da expectativa',
+      data: myDataUnder.map(x => x.data),
     }],
 
   });
@@ -263,7 +266,7 @@ function returnTeachersJedisRating(place, year) {
       }],
      
   });
-  return [jedi, teacher, averageJedi, averageTeacher];
+  return [myDataJedi, myDataTeacher, averageJedi, averageTeacher];
 }
 
 var teste = returnTeachersJedisRating('AQP', '2016-2');
