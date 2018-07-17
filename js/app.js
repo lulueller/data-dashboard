@@ -18,6 +18,9 @@ function loadCityList() {
     cityItem.innerText = name;
     cityList.appendChild(cityItem);
   }
+  var generation = document.getElementById('generation-list');
+  //generation.setAttribute("hidden", true);
+  generation.style.display = "none";
 }
 
 function getCityName(code) {
@@ -33,6 +36,7 @@ function getCityName(code) {
 function loadGeneneration() {
   var cityList = document.getElementById('city-list');
   var generationList = document.getElementById('generation-list');
+  generationList.style.display = "inline";
   generationList.innerHTML = '';
   var generationItem = document.createElement('option');
   generationItem.innerText = 'Selecione a turma';
