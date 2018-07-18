@@ -110,3 +110,8 @@ select {
 .student-pic{
   float: left;
 }
+
+.chart {
+  width: 300px;
+  background-color: pink;
+}
