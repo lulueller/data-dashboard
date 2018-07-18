@@ -11,6 +11,7 @@ body {
 .col-1 {
   background: black;
   flex: 0.7;
+  border-right: 2px solid #FFE521;
 }
 .col-2 {
   display: flex;
@@ -27,23 +28,23 @@ header {
   height: 100px;
 }
 header, article {
-  padding: 1em;
+  padding: 10px;
 }
  #menu ul {
-  margin-top: 40px;
+  margin-top: 30px;
   padding: 0px;
  }
 
 #menu ul li {
   display: flex;
   flex-direction: column;
-  border-bottom: 2px solid #FFE521;
+  border-bottom: 1px solid #FFE521;
 }
 
 #menu ul li a {
   text-decoration: none;
   color: white;
-  padding: 30px;
+  padding: 25px 15px;
 }
 
 #menu ul li a:hover {
@@ -51,11 +52,9 @@ header, article {
   color: black;
 }
 
-
-
 .logo {
-  padding-top: 15px;
-  margin: 5px;
+  margin-top: 25px;
+  padding: 5px;
   width: 150px;
   height: auto;
 }
@@ -65,4 +64,17 @@ select {
   color: #FFF;
   font-size: 14px;
   height: 40px;
+}
+
+#top-menu {
+  margin: 25px;
+  display: flex;
+  align-items: baseline;
+}
+
+#top-menu span {
+  font-family: 'Markazi Text', serif;
+  font-size: 25px;
+  font-weight: bolder;
+  margin: 10px;
 }

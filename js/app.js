@@ -25,10 +25,10 @@ function loadCityList() {
 
 function getCityName(code) {
   var cities = {
-      'AQP': 'Arequipa',
-      'CDMX': 'Cidade do México',
-      'LIM': 'Lima',
-      'SCL': 'Santiago do Chile'
+    'AQP': 'Arequipa',
+    'CDMX': 'Cidade do México',
+    'LIM': 'Lima',
+    'SCL': 'Santiago do Chile'
   };
   return cities[code];
 }
