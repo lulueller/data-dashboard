@@ -6,6 +6,34 @@ function main() {
   var generationList = document.getElementById('generation-list');
   cityList.addEventListener('change', loadGeneneration);
   generationList.addEventListener('change', loadStudentList);
+  var dashboardMenu  = document.getElementById('dashboard-menu');
+  var studentsMenu  = document.getElementById('student-menu');
+  var helpMenu  = document.getElementById('help-menu');
+  var logoutMenu  = document.getElementById('logout-menu');
+  dashboardMenu.addEventListener('click', showDashboardMenu);
+  studentsMenu.addEventListener('click', showStudentsMenu);
+//  helpMenu.addEventListener('click', );
+//  logoutMenu.addEventListener('click', );
+}
+
+function showStudentsMenu() {
+  var chartsPlace = document.getElementById('charts-place');
+  chartsPlace.style.display = 'none';
+  var chartsYear = document.getElementById('charts-year');
+  chartsYear.style.display = 'none';
+  var students = document.getElementById('students');
+  students.style.display = 'block';
+
+  loadStudentList();
+}
+
+function showDashboardMenu() {
+  var chartsPlace = document.getElementById('charts-place');
+  chartsPlace.style.display = 'inline';
+  var chartsYear = document.getElementById('charts-year');
+  chartsYear.style.display = 'inline';
+  var students = document.getElementById('students');
+  students.style.display = 'none';
 }
 
 function loadCityList() {
@@ -21,6 +49,8 @@ function loadCityList() {
   var generation = document.getElementById('generation-list');
   //generation.setAttribute("hidden", true);
   generation.style.display = "none";
+  var errorMsg = document.getElementById('error-msg');
+  errorMsg.style.display = "none";
 }
 
 function getCityName(code) {
@@ -52,9 +82,17 @@ function loadGeneneration() {
 }
 
 function loadStudentList() {
-  callChartByYear();
+  //callChartByYear();
   var city = document.getElementById('city-list').value;
   var generation = document.getElementById('generation-list').value;
+  var errorMsg = document.getElementById('error-msg');
+  if (generation === 'Selecione a turma') {
+    errorMsg.innerText = 'Selecione uma turma';
+    errorMsg.style.display = "block";
+    return errorMsg;
+  } else {
+    errorMsg.style.display = "none";
+  }
   var studentsList = document.getElementById('students-list');
   studentsList.innerHTML = '';
   var students = data[city][generation]['students'];
@@ -65,14 +103,17 @@ function loadStudentList() {
 }
 
 function addStudentInfo(list, student) {
-  var studentItem = document.createElement('li');
+  var studentItem = document.createElement('p');
   var studentPhoto = document.createElement('img');
   studentItem.innerText = student.name;
+  studentItem.classList.add("student-profile");
+  studentPhoto.classList.add("student-pic");
   studentPhoto.src = student.photo;
   studentPhoto.setAttribute('width', 40);
   studentPhoto.setAttribute('height', 40);
-  list.appendChild(studentItem);
   studentItem.appendChild(studentPhoto);
+  list.appendChild(studentItem);
+
 }
 
 //Funções saída de graficos por sede
@@ -446,7 +487,7 @@ function returnTeachersJedisRatingAll(place) {
   return [myDataJedi, myDataTeacher, averageJedi, averageTeacher];
 }
 
-// Funções saída de graficos por sede e turma 
+// Funções saída de graficos por sede e turma
 function callChartByYear() {
   var place = document.getElementById('city-list').value;
   var year = document.getElementById('generation-list').value;
@@ -545,7 +586,13 @@ function targetAll(place, year) {
   var targetSprint = [];
   var targetHSE = [];
   var targetTech = [];
+<<<<<<< HEAD
   
+=======
+
+
+
+>>>>>>> 4b34cb3c9791e92223499dea31e43167959a743c
   for (k in data[place][year]['ratings']) {
     targetSprint[k] = 0;
     targetHSE[k] = 0;
@@ -564,6 +611,7 @@ function targetAll(place, year) {
           targetHSE[j] += 1;
         }
     }
+<<<<<<< HEAD
  }
       
   
@@ -573,6 +621,16 @@ function targetAll(place, year) {
   var averageTechPercAll = parseInt((averageTech * 100) / (countStudentsAll(place)) / k);
   var averageHSE = parseInt(averageData(targetHSE));
   var averageHSEPercAll = parseInt((averageHSE * 100) / (countStudentsAll(place)) / k);
+=======
+
+
+  var averageSprint = averageData(targetSprint);
+  var averagePercAll = ((averageSprint * 100) / (countStudents(place, year)));
+  var averageTech = averageData(targetTech);
+  var averageTechPercAll = ((averageTech * 100) / (countStudents(place, year)));
+  var averageHSE = averageData(targetHSE);
+  var averageHSEPercAll = ((averageHSE * 100) / (countStudents(place, year)));
+>>>>>>> 4b34cb3c9791e92223499dea31e43167959a743c
 
   var myDataTechHSE = transformArray(targetSprint);
   var myDataTech = transformArray(targetTech);
@@ -842,4 +900,3 @@ function averageData(array) {
   var average = (sum / array.length).toFixed(2);
   return average;
 }
-

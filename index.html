@@ -16,12 +16,10 @@
 
   <div id="menu" class="col-1">
   <nav>
-    <img src="./assets/images/Laboratoria-Logo.png" alt="Logotipo da Laboratoria" class="logo">
+    <img src="assets/images/logo.png" alt="Logotipo da Laboratoria" class="logo">
     <ul>
-      <li><a href="#">Dashboard</a></li>
-      <li><a href="#">Lista de Estudantes</a></li>
-      <li><a href="#">Ajuda</a></li>
-      <li><a href="#">Sair</a></li>
+      <li id="dashboard-menu"><a href="#">Dashboard</a></li>
+      <li id="student-menu"><a href="#">Estudantes</a></li>
     </ul>
   </nav>
   </div>
@@ -34,11 +32,21 @@
         </select>
         <select id="generation-list">
         </select>
+        <span id="error-msg"></span>
       </section>
+
     </header
 
     <main class="content">
     <article>
+      <div id="charts-place">
+        <div id="container-studentsActiveOrNotAll"></div>
+        <div id="container-TargetTechHSEAll"></div>
+        <div id="container-NPSAll"></div>
+        <div id="container-ratingsStudentsAll"></div>
+        <div id="container-ratingsJediTeacherAll"></div>
+      </div>
+
       <div id="charts-year">
         <div id="container-studentsActiveOrNot"></div>
          <div id="container-TargetTechHSE"></div>
@@ -47,7 +55,7 @@
          <div id="container-ratingsJediTeacher"></div>
       </div>
       <div id="students">
-        <ul id="students-list"></ul>
+        <div id="students-list"><div>
       </div>
 
     </article>
@@ -57,4 +65,3 @@
   <script type="text/javascript" src="./js/app.js"></script>
 </body>
 </html>
-
