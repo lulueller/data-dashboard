@@ -18,10 +18,10 @@
   <nav>
     <img src="./assets/images/Laboratoria-Logo.png" alt="Logotipo da Laboratoria" class="logo">
     <ul>
-      <li><a href="#">Dashboard</a></li>
-      <li><a href="#">Lista de Estudantes</a></li>
-      <li><a href="#">Ajuda</a></li>
-      <li><a href="#">Sair</a></li>
+      <li id="dashboard-menu"><a href="#">Dashboard</a></li>
+      <li id="student-menu"><a href="#">Estudantes</a></li>
+      <li id="help-menu"><a href="#">Ajuda</a></li>
+      <li id="logout-menu"><a href="#">Sair</a></li>
     </ul>
   </nav>
   </div>
@@ -34,7 +34,9 @@
         </select>
         <select id="generation-list">
         </select>
+        <span id="error-msg"></span>
       </section>
+
     </header
 
     <main class="content">
@@ -55,7 +57,7 @@
          <div id="container-ratingsJediTeacher"></div>
       </div>
       <div id="students">
-        <ul id="students-list"></ul>
+        <div id="students-list"><div>
       </div>
 
     </article>
@@ -65,4 +67,3 @@
   <script type="text/javascript" src="./js/app.js"></script>
 </body>
 </html>
-
