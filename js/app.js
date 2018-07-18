@@ -586,14 +586,7 @@ function targetAll(place, year) {
   var targetSprint = [];
   var targetHSE = [];
   var targetTech = [];
-<<<<<<< HEAD
-  
-=======
-
-
-
->>>>>>> 4b34cb3c9791e92223499dea31e43167959a743c
-  for (k in data[place][year]['ratings']) {
+ for (k in data[place][year]['ratings']) {
     targetSprint[k] = 0;
     targetHSE[k] = 0;
     targetTech[k] = 0;
@@ -611,7 +604,6 @@ function targetAll(place, year) {
           targetHSE[j] += 1;
         }
     }
-<<<<<<< HEAD
  }
       
   
@@ -621,16 +613,6 @@ function targetAll(place, year) {
   var averageTechPercAll = parseInt((averageTech * 100) / (countStudentsAll(place)) / k);
   var averageHSE = parseInt(averageData(targetHSE));
   var averageHSEPercAll = parseInt((averageHSE * 100) / (countStudentsAll(place)) / k);
-=======
-
-
-  var averageSprint = averageData(targetSprint);
-  var averagePercAll = ((averageSprint * 100) / (countStudents(place, year)));
-  var averageTech = averageData(targetTech);
-  var averageTechPercAll = ((averageTech * 100) / (countStudents(place, year)));
-  var averageHSE = averageData(targetHSE);
-  var averageHSEPercAll = ((averageHSE * 100) / (countStudents(place, year)));
->>>>>>> 4b34cb3c9791e92223499dea31e43167959a743c
 
   var myDataTechHSE = transformArray(targetSprint);
   var myDataTech = transformArray(targetTech);
