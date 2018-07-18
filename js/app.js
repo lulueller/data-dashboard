@@ -82,7 +82,7 @@ function loadGeneneration() {
 }
 
 function loadStudentList() {
-  //callChartByYear();
+  callChartByYear();
   var city = document.getElementById('city-list').value;
   var generation = document.getElementById('generation-list').value;
   var errorMsg = document.getElementById('error-msg');
@@ -381,9 +381,9 @@ function returnStudentsRatingAll(place) {
     }
   }
 
-  var averageOverExpectation = averageData(overExpectation);
-  var averageOnExpectation = averageData(onExpectation);
-  var averageUnderExpectation = averageData(underExpectation);
+  var averageOverExpectation = parseInt(averageData(overExpectation));
+  var averageOnExpectation = parseInt(averageData(onExpectation));
+  var averageUnderExpectation = parseInt(averageData(underExpectation));
   var myDataOver = transformArray(overExpectation);
   var myDataOn = transformArray(onExpectation);
   var myDataUnder = transformArray(underExpectation);
@@ -399,7 +399,17 @@ function returnStudentsRatingAll(place) {
 
     },
     title: {
-      text: 'Avaliação das estudantes sobre a Laboratória'
+      text: 'Avaliação de Laboratória pelas estudantes'
+    },
+    legend: {
+      align: 'right',
+      verticalAlign: 'top',
+      layout: 'vertical',
+      x: -60,
+      y: 100,
+      title: {
+        text: 'Média de satisfação',
+      },
     },
 
 
@@ -421,17 +431,16 @@ function returnStudentsRatingAll(place) {
       }
     },
     series: [{
-      name: 'Supera a expectativa',
+      name: 'Supera a expectativa: <br/>- Média de ' + averageOverExpectation + '%.',
       data: myDataOver.map(x => x.data),
     }, {
-      name: 'Dentro da expectativa',
+      name: 'Dentro da expectativa: <br/>- Média de ' + averageOnExpectation + '%.',
       data: myDataOn.map(x => x.data),
     }, {
-      name: 'Abaixo da expectativa',
+      name: 'Abaixo da expectativa: <br/>- Média de ' + averageUnderExpectation + '%.',
       data: myDataUnder.map(x => x.data),
     }],
   });
-  return [myDataOver, myDataOn, myDataUnder, averageOverExpectation, averageOnExpectation, averageUnderExpectation];
 }
 
 function returnTeachersJedisRatingAll(place) {
@@ -755,9 +764,9 @@ function returnStudentsRating(place, year) {
     underExpectation[i] = (data[place][year]['ratings'][i]['student']['no-cumple']);
   }
 
-  var averageOverExpectation = averageData(overExpectation);
-  var averageOnExpectation = averageData(onExpectation);
-  var averageUnderExpectation = averageData(underExpectation);
+  var averageOverExpectation = parseInt(averageData(overExpectation));
+  var averageOnExpectation = parseInt(averageData(onExpectation));
+  var averageUnderExpectation = parseInt(averageData(underExpectation));
   var myDataOver = transformArray(overExpectation);
   var myDataOn = transformArray(onExpectation);
   var myDataUnder = transformArray(underExpectation);
@@ -766,14 +775,23 @@ function returnStudentsRating(place, year) {
     colors: ['#058DC7', '#8bbc21', '#ED561B']
   });
 
-
   Highcharts.chart('container-ratingsStudents', {
     chart: {
       type: 'line',
 
     },
     title: {
-      text: 'Avaliação das estudantes sobre a Laboratória'
+      text: 'Avaliação de Laboratória pelas estudantes'
+    },
+    legend: {
+      align: 'right',
+      verticalAlign: 'top',
+      layout: 'vertical',
+      x: -60,
+      y: 100,
+      title: {
+        text: 'Média de satisfação',
+      },
     },
 
 
@@ -795,17 +813,16 @@ function returnStudentsRating(place, year) {
       }
     },
     series: [{
-      name: 'Supera a expectativa',
+      name: 'Supera a expectativa: <br/>- Média de ' + averageOverExpectation + '%.',
       data: myDataOver.map(x => x.data),
     }, {
-      name: 'Dentro da expectativa',
+      name: 'Dentro da expectativa: <br/>- Média de ' + averageOnExpectation + '%.',
       data: myDataOn.map(x => x.data),
     }, {
-      name: 'Abaixo da expectativa',
+      name: 'Abaixo da expectativa: <br/>- Média de ' + averageUnderExpectation + '%.',
       data: myDataUnder.map(x => x.data),
     }],
   });
-  return [myDataOver, myDataOn, myDataUnder, averageOverExpectation, averageOnExpectation, averageUnderExpectation];
 }
 
 //função que retorna a pontuacao media de mentores e Jedis por sede e turma
