@@ -174,6 +174,7 @@ function studentsActiveOrNotAll(place) {
     title: {
       text: 'Índice de estudantes ativas e desistentes'
     },
+
     tooltip: {
       pointFormat: '{series.name}: <b>{point.y}</b><br/><b>{point.percentage:.1f}%</b>'
     },
@@ -199,7 +200,6 @@ function studentsActiveOrNotAll(place) {
   });
 
   var countActivePerc = ((countActive / (countStudentsAll(place))) * 100).toFixed(2);
-  return [countActive, countInactive];
 }
 
 function targetPlaceAll(place) {
@@ -392,7 +392,6 @@ function returnStudentsRatingAll(place) {
     colors: ['#058DC7', '#8bbc21', '#ED561B']
   });
 
-
   Highcharts.chart('container-ratingsStudents', {
     chart: {
       type: 'line',
@@ -454,18 +453,27 @@ function returnTeachersJedisRatingAll(place) {
     }
   }
 
-  var averageJedi = averageData(jedi);
-  var averageTeacher = averageData(teacher);
+  var averageJedi = parseInt(averageData(jedi));
+  var averageTeacher = parseInt(averageData(teacher));
   var myDataJedi = transformArray(jedi);
   var myDataTeacher = transformArray(teacher);
 
   Highcharts.chart('container-ratingsJediTeacher', {
     chart: {
       type: 'line',
-
     },
     title: {
       text: 'Pontuação de Mentores e Jedis'
+    },
+    legend: {
+      align: 'right',
+      verticalAlign: 'top',
+      layout: 'vertical',
+      x: -60,
+      y: 100,
+      title: {
+        text: 'Média de pontuação',
+      },
     },
 
     xAxis: {
@@ -485,15 +493,14 @@ function returnTeachersJedisRatingAll(place) {
       }
     },
     series: [{
-      name: 'Jedis',
+      name: 'Jedis: <br/>- Média de ' + averageJedi + ' pontos.',
       data: myDataJedi.map(x => x.data),
     }, {
-      name: 'Teachers',
+      name: 'Mentores: <br/>- Média de ' + averageTeacher + ' pontos.',
       data: myDataTeacher.map(x => x.data),
     }],
 
   });
-  return [myDataJedi, myDataTeacher, averageJedi, averageTeacher];
 }
 
 // Funções saída de graficos por sede e turma
@@ -828,19 +835,27 @@ function returnTeachersJedisRating(place, year) {
     teacher[i] = (data[place][year]['ratings'][i]['teacher']);
   }
 
-  var averageJedi = averageData(jedi);
-  var averageTeacher = averageData(teacher);
-
+  var averageJedi = parseInt(averageData(jedi));
+  var averageTeacher = parseInt(averageData(teacher));
   var myDataJedi = transformArray(jedi);
   var myDataTeacher = transformArray(teacher);
 
   Highcharts.chart('container-ratingsJediTeacher', {
     chart: {
       type: 'line',
-
     },
     title: {
       text: 'Pontuação de Mentores e Jedis'
+    },
+    legend: {
+      align: 'right',
+      verticalAlign: 'top',
+      layout: 'vertical',
+      x: -60,
+      y: 100,
+      title: {
+        text: 'Média de pontuação',
+      },
     },
 
     xAxis: {
@@ -860,15 +875,14 @@ function returnTeachersJedisRating(place, year) {
       }
     },
     series: [{
-      name: 'Jedis',
+      name: 'Jedis: <br/>- Média de ' + averageJedi + ' pontos.',
       data: myDataJedi.map(x => x.data),
     }, {
-      name: 'Teachers',
+      name: 'Mentores: <br/>- Média de ' + averageTeacher + ' pontos.',
       data: myDataTeacher.map(x => x.data),
     }],
 
   });
-  return [myDataJedi, myDataTeacher, averageJedi, averageTeacher];
 }
 
 function transformArray(array) {
