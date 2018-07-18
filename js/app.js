@@ -120,7 +120,7 @@ function studentsActiveOrNotAll(place) {
   ]
 
   Highcharts.setOptions({
-    colors: ['#058DC7', '#ED561B']
+    colors: ['#f7b731', '#d1d8e0']
   });
 
   Highcharts.chart('container-studentsActiveOrNot', {
@@ -188,42 +188,52 @@ function targetPlaceAll(place) {
         }
       }
     }
+  }
+  var averageSprint = parseInt(averageData(targetSprint));
+  var averagePercAll = parseInt((averageSprint * 100) / (countStudentsAll(place))/k);
+  var averageTech = parseInt(averageData(targetTech));
+  var averageTechPercAll = parseInt((averageTech * 100) / (countStudentsAll(place))/k);
+  var averageHSE = parseInt(averageData(targetHSE));
+  var averageHSEPercAll = parseInt((averageHSE * 100) / (countStudentsAll(place))/k);
 
-    var averageSprint = averageData(targetSprint);
-    var averagePercAll = ((averageSprint * 100) / (countStudentsAll(place)));
-    var averageTech = averageData(targetTech);
-    var averageTechPercAll = ((averageTech * 100) / (countStudentsAll(place)));
-    var averageHSE = averageData(targetHSE);
-    var averageHSEPercAll = ((averageHSE * 100) / (countStudentsAll(place)));
+  var myDataTechHSE = transformArray(targetSprint);
+  var myDataTech = transformArray(targetTech);
+  var myDataHSE = transformArray(targetHSE);
 
-    var myDataTechHSE = transformArray(targetSprint);
-    var myDataTech = transformArray(targetTech);
-    var myDataHSE = transformArray(targetHSE);
+  Highcharts.setOptions({
+    colors: ['#ED561B', '#058DC7', '#8bbc21']
+  });
 
-    Highcharts.setOptions({
-      colors: ['#ED561B', '#058DC7', '#8bbc21']
-    });
+  Highcharts.chart('container-TargetTechHSE', {
+    chart: {
+      type: 'line',
+      marginRight: 300
+    },
 
-
-    Highcharts.chart('container-TargetTechHSE', {
-      chart: {
-        type: 'line',
-
-      },
+    legend: {
+      align: 'right',
+      verticalAlign: 'top',
+      layout: 'vertical',
+      x: -30,
+      y: 100,
       title: {
-        text: 'Número de Estudantes com Pontuação Técnica e de Habilidades Sócio Emocionais <br/> Acima de 70%'
+        text: '# de Estudantes<br/>'
       },
+    },
 
+    title: {
+      text: 'Número de Estudantes com Pontuação Técnica e de Habilidades Sócio Emocionais <br/> Acima de 70% da meta'
+    },
 
-      xAxis: {
+    xAxis: {
         categories: myDataTechHSE.map(x => x.name)
       },
-      yAxis: {
+    yAxis: {
         title: {
           text: 'Número de Estudantes'
         }
       },
-      plotOptions: {
+    plotOptions: {
         line: {
           dataLabels: {
             enabled: true,
@@ -232,22 +242,17 @@ function targetPlaceAll(place) {
           enableMouseTracking: false
         }
       },
-      series: [{
-        name: 'Tech e HSE',
+    series: [{
+      name: 'Pontuação Técnica e HSE:<br/>- Média de ' + averageSprint + ' estudantes<br/>por sprint (' + averagePercAll+'% do total).',
         data: myDataTechHSE.map(x => x.data),
       }, {
-        name: 'Tech',
+        name: 'Pontuação Técnica:<br/>- Média de ' + averageTech + ' estudantes<br/>por sprint (' + averageTechPercAll + '% do total).',
         data: myDataTech.map(x => x.data),
       }, {
-        name: 'HSE',
+        name: 'Pontuação de HSE:<br/> - Média de ' + averageHSE + ' estudantes<br/>por sprint (' + averageHSEPercAll + ' % do total).',
         data: myDataHSE.map(x => x.data),
       }],
     });
-
-    //retorna array com numero de estudantes que conseguiram alcancar a meta por sprint (targetSprint)
-    // retorna também a media de alunas que alcancaram a meta por sprint(averageSprint) e a porcentagem em relaco ao total de alunas (averagePercAll)
-    return [targetSprint, averageSprint, averagePercAll, targetTech, averageTech, averageTechPercAll, targetHSE, averageHSE, averageHSEPercAll];
-  }
 }
 
 function returnNPSAll(place) {
@@ -262,9 +267,9 @@ function returnNPSAll(place) {
     }
   }
 
-  var averagePromoters = averageData(promoters);
-  var averagePassive = averageData(passive);
-  var averageDetractors = averageData(detractors);
+  var averagePromoters = parseInt(averageData(promoters));
+  var averagePassive = parseInt(averageData(passive));
+  var averageDetractors = parseInt(averageData(detractors));
   var nps = averagePromoters - averageDetractors;
   var myDataPromoters = transformArray(promoters);
   var myDataPassive = transformArray(passive);
@@ -277,12 +282,21 @@ function returnNPSAll(place) {
   Highcharts.chart('container-NPS', {
     chart: {
       type: 'line',
-
+      marginRight: 300
     },
     title: {
       text: 'Net Promoter Score'
     },
-
+    legend: {
+      align: 'right',
+      verticalAlign: 'top',
+      layout: 'vertical',
+      x: -100,
+      y: 100,
+      title: {
+        text: 'NPS  ' + nps + '%.',
+      },
+    },
 
     xAxis: {
       categories: myDataPromoters.map(x => x.name)
@@ -296,24 +310,21 @@ function returnNPSAll(place) {
       line: {
         dataLabels: {
           enabled: true,
-
         },
         enableMouseTracking: false
       }
     },
     series: [{
-      name: 'Promoters',
+      name: 'Promoters:<br/>- Média de ' + averagePromoters + '%.',
       data: myDataPromoters.map(x => x.data),
     }, {
-      name: 'Passive',
+      name: 'Passive:<br/>- Média de ' + averagePassive + '%.',
       data: myDataPassive.map(x => x.data),
     }, {
-      name: 'Detractors',
+      name: 'Detractors:<br/>- Média de ' + averageDetractors + '%.',
       data: myDataDetractors.map(x => x.data),
     }],
   });
-
-  return [promoters, passive, detractors, averagePromoters, averagePassive, averageDetractors, nps];
 }
 
 function returnStudentsRatingAll(place) {
@@ -488,7 +499,7 @@ function studentsActiveOrNot(place, year) {
   ]
 
   Highcharts.setOptions({
-    colors: ['#058DC7', '#ED561B']
+    colors: ['#f7b731', '#d1d8e0']
   });
 
   Highcharts.chart('container-studentsActiveOrNot', {
@@ -534,8 +545,6 @@ function targetAll(place, year) {
   var targetSprint = [];
   var targetHSE = [];
   var targetTech = [];
-
-
   
   for (k in data[place][year]['ratings']) {
     targetSprint[k] = 0;
@@ -554,16 +563,16 @@ function targetAll(place, year) {
         if (data[place][year]['students'][i]['sprints'][j]['score']['hse'] >= 840) {
           targetHSE[j] += 1;
         }
-      }
     }
+ }
       
   
-  var averageSprint = averageData(targetSprint);
-  var averagePercAll = ((averageSprint * 100) / (countStudents(place, year)));
-  var averageTech = averageData(targetTech);
-  var averageTechPercAll = ((averageTech * 100) / (countStudents(place, year)));
-  var averageHSE = averageData(targetHSE);
-  var averageHSEPercAll = ((averageHSE * 100) / (countStudents(place, year)));
+  var averageSprint = parseInt(averageData(targetSprint));
+  var averagePercAll = parseInt((averageSprint * 100) / (countStudentsAll(place)) / k);
+  var averageTech = parseInt(averageData(targetTech));
+  var averageTechPercAll = parseInt((averageTech * 100) / (countStudentsAll(place)) / k);
+  var averageHSE = parseInt(averageData(targetHSE));
+  var averageHSEPercAll = parseInt((averageHSE * 100) / (countStudentsAll(place)) / k);
 
   var myDataTechHSE = transformArray(targetSprint);
   var myDataTech = transformArray(targetTech);
@@ -573,16 +582,26 @@ function targetAll(place, year) {
     colors: ['#ED561B', '#058DC7', '#8bbc21']
   });
 
-
   Highcharts.chart('container-TargetTechHSE', {
     chart: {
       type: 'line',
-
+      marginRight: 300
     },
+
+    legend: {
+      align: 'right',
+      verticalAlign: 'top',
+      layout: 'vertical',
+      x: -30,
+      y: 100,
+      title: {
+        text: 'Índice de Estudantes<br/>'
+      },
+    },
+
     title: {
-      text: 'Número de Estudantes com Pontuação Técnica e de Habilidades Sócio Emocionais <br/> Acima de 70%'
+      text: 'Número de Estudantes com Pontuação Técnica e de Habilidades Sócio Emocionais <br/> Acima de 70% da meta'
     },
-
 
     xAxis: {
       categories: myDataTechHSE.map(x => x.name)
@@ -602,20 +621,16 @@ function targetAll(place, year) {
       }
     },
     series: [{
-      name: 'Tech e HSE',
+      name: 'Pontuação Técnica e HSE:<br/>- Média de ' + averageSprint + ' estudantes<br/>por sprint (' + averagePercAll + '% do total).',
       data: myDataTechHSE.map(x => x.data),
     }, {
-      name: 'Tech',
+      name: 'Pontuação Técnica:<br/>- Média de ' + averageTech + ' estudantes<br/>por sprint (' + averageTechPercAll + '% do total).',
       data: myDataTech.map(x => x.data),
     }, {
-      name: 'HSE',
+      name: 'Pontuação de HSE:<br/> - Média de ' + averageHSE + ' estudantes<br/>por sprint (' + averageHSEPercAll + ' % do total).',
       data: myDataHSE.map(x => x.data),
     }],
   });
-
-  //retorna array com numero de estudantes que conseguiram alcancar a meta por sprint (targetSprint)
-  // retorna também a media de alunas que alcancaram a meta por sprint(averageSprint) e a porcentagem em relaco ao total de alunas (averagePercAll)
-  return [targetSprint, averageSprint, averagePercAll, targetTech, averageTech, averageTechPercAll, targetHSE, averageHSE, averageHSEPercAll];
 }
 
 //função que retorna NPS pela turma por sprints, média de nps e nps (%) por sede e turma
@@ -629,9 +644,9 @@ function returnNPS(place, year) {
     detractors[i] = (data[place][year]['ratings'][i]['nps']['detractors']);
   }
 
-  var averagePromoters = averageData(promoters);
-  var averagePassive = averageData(passive);
-  var averageDetractors = averageData(detractors);
+  var averagePromoters = parseInt(averageData(promoters));
+  var averagePassive = parseInt(averageData(passive));
+  var averageDetractors = parseInt(averageData(detractors));
   var nps = averagePromoters - averageDetractors;
   var myDataPromoters = transformArray(promoters);
   var myDataPassive = transformArray(passive);
@@ -641,16 +656,24 @@ function returnNPS(place, year) {
     colors: ['#058DC7', '#8bbc21', '#ED561B']
   });
 
-
   Highcharts.chart('container-NPS', {
     chart: {
       type: 'line',
-
+      marginRight: 300
     },
     title: {
       text: 'Net Promoter Score'
     },
-
+    legend: {
+      align: 'right',
+      verticalAlign: 'top',
+      layout: 'vertical',
+      x: -100,
+      y: 100,
+      title: {
+        text: 'NPS  ' + nps + '%.',
+      },
+    },
 
     xAxis: {
       categories: myDataPromoters.map(x => x.name)
@@ -664,24 +687,21 @@ function returnNPS(place, year) {
       line: {
         dataLabels: {
           enabled: true,
-
         },
         enableMouseTracking: false
       }
     },
     series: [{
-      name: 'Promoters',
+      name: 'Promoters:<br/>- Média de ' + averagePromoters + '%.',
       data: myDataPromoters.map(x => x.data),
     }, {
-      name: 'Passive',
+      name: 'Passive:<br/>- Média de ' + averagePassive + '%.',
       data: myDataPassive.map(x => x.data),
     }, {
-      name: 'Detractors',
+      name: 'Detractors:<br/>- Média de ' + averageDetractors + '%.',
       data: myDataDetractors.map(x => x.data),
     }],
   });
-
-  return [promoters, passive, detractors, averagePromoters, averagePassive, averageDetractors, nps];
 }
 
 //função que retorna a avaliacao das estudantes sobre a laboratória por sede e turma
