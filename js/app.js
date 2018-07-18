@@ -507,7 +507,6 @@ function callChartByYear() {
   returnTeachersJedisRating(place, year);
 }
 
-// função que conta o número de estudantes por sede e turma
 function countStudents(place, year) {
   var count = 0;
   for (i in data[place][year]['students']) {
@@ -518,7 +517,6 @@ function countStudents(place, year) {
   return (count);
 }
 
-// função que verifica se um objeto é vazio
 function isEmpty(obj) {
   for (var prop in obj) {
     if (obj.hasOwnProperty(prop))
@@ -527,7 +525,6 @@ function isEmpty(obj) {
   return true;
 }
 
-// função que conta o número de estudantes ativas ou não por sede e turma
 function studentsActiveOrNot(place, year) {
   var countActive = 0;
   var countInactive = 0;
@@ -590,7 +587,6 @@ function studentsActiveOrNot(place, year) {
 
 }
 
-// função que conta o número de estudantes que alcancaram a meta de 70% em hse e tech por sprint  e separadamente por tech e hse por sede e turma
 function targetAll(place, year) {
   var targetSprint = [];
   var targetHSE = [];
@@ -682,7 +678,6 @@ function targetAll(place, year) {
   });
 }
 
-//função que retorna NPS pela turma por sprints, média de nps e nps (%) por sede e turma
 function returnNPS(place, year) {
   var promoters = [];
   var passive = [];
@@ -753,7 +748,6 @@ function returnNPS(place, year) {
   });
 }
 
-//função que retorna a avaliacao das estudantes sobre a laboratória por sede e turma
 function returnStudentsRating(place, year) {
   var overExpectation = [];
   var onExpectation = [];
@@ -825,7 +819,6 @@ function returnStudentsRating(place, year) {
   });
 }
 
-//função que retorna a pontuacao media de mentores e Jedis por sede e turma
 function returnTeachersJedisRating(place, year) {
   var jedi = [];
   var teacher = [];
@@ -878,7 +871,6 @@ function returnTeachersJedisRating(place, year) {
   return [myDataJedi, myDataTeacher, averageJedi, averageTeacher];
 }
 
-//função que tranforma o array de dados em um objeto no formato de entrada de dados dos gráficos
 function transformArray(array) {
   var myData = [];
   for (var n in array) {
@@ -893,7 +885,6 @@ function transformArray(array) {
   return myData;
 }
 
-//função que calcula a média dos dados
 function averageData(array) {
   for (var i = 0, sum = 0; i < array.length; sum += array[i++]) { }
   var average = (sum / array.length).toFixed(2);
