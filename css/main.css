@@ -1,4 +1,4 @@
-* {
+/** {
   box-sizing: border-box;
 }
 body {
@@ -31,7 +31,7 @@ header, footer {
 header, footer, article, nav {
   padding: 1em;
 }
-}
+*/
 /*
 * {
   box-sizing: border-box;
