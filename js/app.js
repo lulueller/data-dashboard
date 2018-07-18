@@ -18,14 +18,17 @@ function loadCityList() {
     cityItem.innerText = name;
     cityList.appendChild(cityItem);
   }
+  var generation = document.getElementById('generation-list');
+  //generation.setAttribute("hidden", true);
+  generation.style.display = "none";
 }
 
 function getCityName(code) {
   var cities = {
-      'AQP': 'Arequipa',
-      'CDMX': 'Cidade do México',
-      'LIM': 'Lima',
-      'SCL': 'Santiago do Chile'
+    'AQP': 'Arequipa',
+    'CDMX': 'Cidade do México',
+    'LIM': 'Lima',
+    'SCL': 'Santiago do Chile'
   };
   return cities[code];
 }
@@ -34,6 +37,7 @@ function loadGeneneration() {
   callChartByPlace();
   var cityList = document.getElementById('city-list');
   var generationList = document.getElementById('generation-list');
+  generationList.style.display = "inline";
   generationList.innerHTML = '';
   var generationItem = document.createElement('option');
   generationItem.innerText = 'Selecione a turma';
@@ -441,6 +445,7 @@ function callChartByYear() {
   returnStudentsRating(place, year);
   returnTeachersJedisRating(place, year);
 }
+
 // função que conta o número de estudantes por sede e turma
 function countStudents(place, year) {
   var count = 0;
