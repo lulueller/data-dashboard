@@ -165,7 +165,7 @@ function studentsActiveOrNotAll(place) {
     colors: ['#058DC7', '#ED561B']
   });
 
-  Highcharts.chart('container-studentsActiveOrNotAll', {
+  Highcharts.chart('container-studentsActiveOrNot', {
     chart: {
       plotBackgroundColor: null,
       plotBorderWidth: null,
@@ -247,7 +247,7 @@ function targetPlaceAll(place) {
     });
 
 
-    Highcharts.chart('container-TargetTechHSEAll', {
+    Highcharts.chart('container-TargetTechHSE', {
       chart: {
         type: 'line',
 
@@ -316,7 +316,7 @@ function returnNPSAll(place) {
     colors: ['#058DC7', '#8bbc21', '#ED561B']
   });
 
-  Highcharts.chart('container-NPSAll', {
+  Highcharts.chart('container-NPS', {
     chart: {
       type: 'line',
 
@@ -383,7 +383,7 @@ function returnStudentsRatingAll(place) {
   });
 
 
-  Highcharts.chart('container-ratingsStudentsAll', {
+  Highcharts.chart('container-ratingsStudents', {
     chart: {
       type: 'line',
 
@@ -440,7 +440,7 @@ function returnTeachersJedisRatingAll(place) {
   var myDataJedi = transformArray(jedi);
   var myDataTeacher = transformArray(teacher);
 
-  Highcharts.chart('container-ratingsJediTeacherAll', {
+  Highcharts.chart('container-ratingsJediTeacher', {
     chart: {
       type: 'line',
 
