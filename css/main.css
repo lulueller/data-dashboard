@@ -6,10 +6,11 @@ body {
   flex-direction: row;
   margin: 0;
   font: 16px Lato, sans-serif;
+  min-height: 100vh;
 }
 .col-1 {
   background: black;
-  flex: 1;
+  flex: 0.7;
 }
 .col-2 {
   display: flex;
@@ -34,21 +35,28 @@ header, article {
  }
 
 #menu ul li {
-  padding: 10px;
-  height: 65px;
   display: flex;
   flex-direction: column;
-  border: 1px solid white;
+  border-bottom: 2px solid #FFE521;
 }
 
 #menu ul li a {
   text-decoration: none;
   color: white;
+  padding: 30px;
 }
+
+#menu ul li a:hover {
+  background-color: #FFE521;
+  color: black;
+}
+
+
 
 .logo {
   padding-top: 15px;
-  width: 200px;
+  margin: 5px;
+  width: 150px;
   height: auto;
 }
 
