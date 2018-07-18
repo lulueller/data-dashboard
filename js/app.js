@@ -34,7 +34,6 @@ function showDashboardMenu() {
   chartsYear.style.display = 'inline';
   var students = document.getElementById('students');
   students.style.display = 'none';
-  loadCityList();
 }
 
 function loadCityList() {
